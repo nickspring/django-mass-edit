@@ -229,12 +229,12 @@ class MassAdmin(admin.ModelAdmin):
             except: pass
         
         # Buggy! Use at your own risk
-        #inline_admin_formsets = []
-        #for inline, formset in zip(self.inline_instances, formsets):
-        #    fieldsets = list(inline.get_fieldsets(request, obj))
-        #    inline_admin_formset = helpers.InlineAdminFormSet(inline, formset, fieldsets)
-        #    inline_admin_formsets.append(inline_admin_formset)
-        #    media = media + inline_admin_formset.media
+        inline_admin_formsets = []
+        for inline, formset in zip(self.inline_instances, formsets):
+            fieldsets = list(inline.get_fieldsets(request, obj))
+            inline_admin_formset = helpers.InlineAdminFormSet(inline, formset, fieldsets)
+            inline_admin_formsets.append(inline_admin_formset)
+            media = media + inline_admin_formset.media
             
         context = {
             'title': _('Change %s') % force_text(opts.verbose_name),
@@ -245,7 +245,7 @@ class MassAdmin(admin.ModelAdmin):
             'exclude_fields': exclude_fields,
             'is_popup': request.REQUEST.has_key('_popup'),
             'media': mark_safe(media),
-            #'inline_admin_formsets': inline_admin_formsets,
+            'inline_admin_formsets': inline_admin_formsets,
             'errors': helpers.AdminErrorList(form, formsets),
             'general_error': general_error,
             'app_label': opts.app_label,
